@@ -12,7 +12,6 @@ enum WeatherServiceError: Error {
     case decodingFailure
     case unknown(Error)
     
-    // Optional: Provide localized messages
     var localizedDescription: String {
         switch self {
         case .emptyAPIKey:

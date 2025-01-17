@@ -9,6 +9,7 @@ import Foundation
 
 protocol WeatherRepositoryProtocol {
     func fetchWeather(for city: String) async throws -> WeatherInfo
+    func searchCities(matching query: String) async throws -> [CitySearchItem]
 }
 
 final class WeatherRepository: WeatherRepositoryProtocol {
@@ -19,10 +20,9 @@ final class WeatherRepository: WeatherRepositoryProtocol {
     }
 
     func fetchWeather(for city: String) async throws -> WeatherInfo {
-        // 1. Get raw response from the service (network call)
+        
         let rawData = try await service.fetchCurrentWeather(city: city)
         
-        // 2. Convert WeatherResponse -> WeatherInfo (domain model)
         return WeatherInfo(
             cityName: rawData.location.name,
             temperature: rawData.current.tempC,
@@ -30,7 +30,19 @@ final class WeatherRepository: WeatherRepositoryProtocol {
             conditionIconURL: URL(string: "https:\(rawData.current.condition.icon)"),
             humidity: rawData.current.humidity,
             uvIndex: rawData.current.uv,
-            feelsLike: rawData.current.feelslikeC
+            feelsLike: rawData.current.feelslikeC,
+            windSpeed: rawData.current.windSpeed,
+            windDirection: rawData.current.windDirection,
+            pressure: rawData.current.pressure,
+            lastUpdated: rawData.current.lastUpdated
         )
     }
+    
+    func searchCities(matching query: String) async throws -> [CitySearchItem] {
+        let results = try await service.searchCities(matching: query)
+           
+           return results
+       }
+    
+    
 }

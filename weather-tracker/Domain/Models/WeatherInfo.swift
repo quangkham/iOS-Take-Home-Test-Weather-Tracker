@@ -14,7 +14,23 @@ struct WeatherInfo {
     let humidity: Int
     let uvIndex: Double
     let feelsLike: Double
+    let windSpeed: Double?
+    let windDirection: String?
+    let pressure: Double?
+    let lastUpdated: String?
     
 }
 
+let demoWeathereInfo: WeatherInfo = .init(
+    cityName: "Hanoi",
+    temperature: 20.0,
+    conditionText: "Sunny",
+    conditionIconURL: nil,
+    humidity: 60,
+    uvIndex: 8.0,
+    feelsLike: 22.0,
+    windSpeed: 10.0,
+    windDirection: "NE",
+    pressure: 0.0, lastUpdated: ""
+)
 

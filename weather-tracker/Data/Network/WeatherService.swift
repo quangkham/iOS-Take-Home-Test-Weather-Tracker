@@ -11,6 +11,7 @@ import Foundation
 
 protocol WeatherServiceProtocol {
     func fetchCurrentWeather(city: String) async throws -> WeatherResponse
+    func searchCities(matching query: String) async throws -> [CitySearchItem]
 }
 
 final class WeatherService: WeatherServiceProtocol {
@@ -23,23 +24,21 @@ final class WeatherService: WeatherServiceProtocol {
     }
     
     func fetchCurrentWeather(city: String) async throws -> WeatherResponse {
-        // 1. Get the API key
         let apiKey = Bundle.main.apiKey
         guard !apiKey.isEmpty else {
             throw WeatherServiceError.emptyAPIKey
         }
         
-        // 2. Build the URL
         let urlString = "https://api.weatherapi.com/v1/current.json?key=\(apiKey)&q=\(city)"
+ 
         guard let url = URL(string: urlString) else {
             throw WeatherServiceError.invalidURL
         }
         
         do {
-            // 3. Execute the request
+            
             let (data, response) = try await session.data(from: url)
             
-            // 4. Validate response
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw WeatherServiceError.unknown(URLError(.badServerResponse))
             }
@@ -47,7 +46,6 @@ final class WeatherService: WeatherServiceProtocol {
                 throw WeatherServiceError.invalidResponseCode(httpResponse.statusCode)
             }
             
-            // 5. Decode JSON
             do {
                 let decoded = try JSONDecoder().decode(WeatherResponse.self, from: data)
                 return decoded
@@ -56,7 +54,47 @@ final class WeatherService: WeatherServiceProtocol {
             }
             
         } catch {
-            // Catch any other errors from session.data or network
+            
+            throw WeatherServiceError.unknown(error)
+        }
+    }
+    
+    func searchCities(matching query: String) async throws -> [CitySearchItem] {
+        
+        let apiKey : String = Bundle.main.apiKey
+        guard !apiKey.isEmpty else {
+            throw WeatherServiceError.emptyAPIKey
+        }
+        
+        let urlString = "https://api.weatherapi.com/v1/search.json?key=\(apiKey)&q=\(query)"
+      
+        
+        guard let url = URL(string: urlString) else {
+            throw WeatherServiceError.invalidURL
+        }
+        
+        do {
+            
+            let (data, response) = try await session.data(from: url)
+            
+           
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw WeatherServiceError.unknown(URLError(.badServerResponse))
+            }
+            guard httpResponse.statusCode == 200 else {
+                throw WeatherServiceError.invalidResponseCode(httpResponse.statusCode)
+            }
+            
+            
+            do {
+                let decoded = try JSONDecoder().decode([CitySearchItem].self, from: data)
+                return decoded
+            } catch {
+                throw WeatherServiceError.decodingFailure
+            }
+            
+        } catch {
+           
             throw WeatherServiceError.unknown(error)
         }
     }

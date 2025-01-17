@@ -14,20 +14,29 @@ struct WeatherResponse: Decodable {
     }
     
     struct Current: Decodable {
-        let tempC: Double
-        let feelslikeC: Double
-        let condition: Condition
-        let humidity: Int
-        let uv: Double
-        
-        enum CodingKeys: String, CodingKey {
-            case tempC = "temp_c"
-            case feelslikeC = "feelslike_c"
-            case condition
-            case humidity
-            case uv
+            let tempC: Double
+            let feelslikeC: Double
+            let condition: Condition
+            let humidity: Int
+            let uv: Double
+
+            let windSpeed: Double?
+            let windDirection: String?
+            let pressure: Double?
+            let lastUpdated: String?
+
+            enum CodingKeys: String, CodingKey {
+                case tempC = "temp_c"
+                case feelslikeC = "feelslike_c"
+                case condition
+                case humidity
+                case uv
+                case windSpeed = "wind_kph"
+                case windDirection = "wind_dir"
+                case pressure = "pressure_mb"
+                case lastUpdated = "last_updated"
+            }
         }
-    }
     
     struct Condition: Decodable {
         let text: String

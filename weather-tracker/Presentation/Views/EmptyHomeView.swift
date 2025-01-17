@@ -12,11 +12,17 @@ struct EmptyHomeView: View {
         VStack(spacing: 16) {
             Spacer()
             Text("No City Selected")
-                .font(.title2)
+                .font(.poppinsTitle)
+                .lineSpacing(15)
+                .foregroundColor(Color.brandForeground)
             Text("Please Search For A City")
-                .foregroundColor(.gray)
+                .font(.poppinsBody)
+                .foregroundColor(Color.brandForeground)
+                .lineSpacing(6)
+            
             Spacer()
         }
+        .multilineTextAlignment(.center)
         .padding()
     }
 }

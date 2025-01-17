@@ -12,45 +12,45 @@ struct ContentView: View {
         repository: WeatherRepository(service: WeatherService(apiKey: Bundle.main.apiKey)),
         cityStorage: CityStorage()
     )
-
+    
+    @State private var isShowingSearchResults = false
+    
     var body: some View {
             VStack {
-                // Search bar at the top
-                HStack {
-                    TextField("Search Location", text: $viewModel.searchQuery)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .onSubmit {
-                            Task { await viewModel.fetchWeather(for: viewModel.searchQuery) }
-                        }
-                    Button(action: {
-                        Task { await viewModel.fetchWeather(for: viewModel.searchQuery) }
-                    }) {
-                        Image(systemName: "magnifyingglass")
+                CustomSearchBar(
+                text: $viewModel.searchQuery,
+                placeholder: "Search Location"
+                ).onChange(of: viewModel.searchQuery) { newValue in
+                    Task {
+                        await viewModel.fetchSearchCity(query: newValue)
+                        isShowingSearchResults = !viewModel.searchResults.isEmpty
                     }
                 }
-                .padding()
+                .padding(.top, 20)
 
-                // Main content
-                if let weather = viewModel.weatherInfo {
-                    WeatherDetailView(weatherInfo: weather)
-                } else if viewModel.isLoading {
-                    ProgressView("Loading...")
+                if isShowingSearchResults {
+                    
+                    CitySearchResultsView(viewModel: viewModel, isShowingSearchResults: $isShowingSearchResults)
                 } else {
-                    // No city saved yet -> show prompt
-                    EmptyHomeView()
+                   
+                    if let weather = viewModel.weatherInfo {
+                        WeatherDetailView(cityName: weather.cityName)
+                    } else if viewModel.isLoading {
+                            ProgressView("Loading...")
+                    } else {
+                            EmptyHomeView()
+                    }
                 }
             }
         
         .onAppear {
             viewModel.loadSavedCity()
         }
-        // Present an alert if `errorMessage` is non-nil
         .alert(
-            // A bool binding that is true when errorMessage isn't nil
+            
             isPresented: Binding<Bool>(
                 get: { viewModel.errorMessage != nil },
                 set: { newVal in
-                    // If the alert is dismissed, reset errorMessage to nil
                     if !newVal {
                         viewModel.errorMessage = nil
                     }
