@@ -1,0 +1,16 @@
+# Ignore macOS system files
+.DS_Store
+
+# Ignore build products
+build/
+DerivedData/
+
+# Ignore Xcode project user data
+*.xcuserdatad
+
+# Ignore secrets or configuration files
+*.xcconfig
+Secrets.xcconfig
+
+# Ignore Swift Package Manager artifacts
+/.build
