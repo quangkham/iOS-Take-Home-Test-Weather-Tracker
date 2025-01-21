@@ -46,3 +46,33 @@ final class WeatherRepository: WeatherRepositoryProtocol {
     
     
 }
+
+
+class MockWeatherRepository: WeatherRepositoryProtocol {
+    func fetchWeather(for city: String) async throws -> WeatherInfo {
+        
+        return WeatherInfo(
+        cityName : "",
+        temperature: 0.0,
+        conditionText: "rawData.current.condition.text",
+        conditionIconURL: URL(string: "https:"),
+        humidity: 0,
+        uvIndex: 0.0,
+        feelsLike: 0.0,
+        windSpeed:0.0,
+        windDirection: "rawData.current.windDirection",
+        pressure: 0.0,
+        lastUpdated: "rawData.current.lastUpdated")
+        
+    }
+
+    func searchCities(matching query: String) async throws -> [CitySearchItem] {
+        return [
+            CitySearchItem(id: 37, name: "San Francisco", region: "-122.4194" , country: "https://www.google.com", lat: 0.0, lon: 0.0, url: ""),
+            CitySearchItem(id: 37, name: "San Francisco", region: "122.4194" , country: "https://www.google.com", lat: 0.0, lon:0.0 , url: ""),
+            CitySearchItem(id: 37, name: "San Francisco", region: "122.4194" , country: "https://www.google.com", lat: 0.0, lon: 0.0 , url : "")
+        ]
+    }
+    
+}
+

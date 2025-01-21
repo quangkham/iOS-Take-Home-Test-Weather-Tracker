@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct CityStorage {
+class CityStorage {
     private let key = "SavedCity"
 
     func saveCity(_ cityName: String) {
@@ -15,5 +15,19 @@ struct CityStorage {
 
     func loadCity() -> String? {
         UserDefaults.standard.string(forKey: key)
+    }
+}
+
+
+
+class MockCityStorage: CityStorage {
+    private var savedCity: String?
+
+    override func loadCity() -> String? {
+        return savedCity
+    }
+
+    override func saveCity(_ city: String) {
+        savedCity = city
     }
 }

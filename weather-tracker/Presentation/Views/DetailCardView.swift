@@ -6,6 +6,7 @@
 //
 
 import SwiftUICore
+import SwiftUI
 
 struct DetailCardView: View {
     let label: String
@@ -22,4 +23,9 @@ struct DetailCardView: View {
         }
         .frame(maxWidth: .infinity)
     }
+}
+
+
+#Preview {
+    DetailCardView(label: "Humidity", value: "80%")
 }

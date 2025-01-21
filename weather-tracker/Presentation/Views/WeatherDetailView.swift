@@ -66,4 +66,8 @@ struct WeatherDetailView: View {
   
 }
 
+#Preview {
+    WeatherDetailView(weatherInfo: demoWeathereInfo)
+}
+
 

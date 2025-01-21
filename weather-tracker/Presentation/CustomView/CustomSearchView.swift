@@ -47,6 +47,6 @@ struct SearchBarPreview: View {
 
 struct SearchBarPreview_Previews: PreviewProvider {
     static var previews: some View {
-        SearchBarPreview()
+        SearchBarPreview().previewLayout(.sizeThatFits)
     }
 }

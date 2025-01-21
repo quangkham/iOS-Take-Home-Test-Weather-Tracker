@@ -40,3 +40,12 @@ struct CitySearchResultsView: View {
         
     }
 }
+
+
+#Preview {
+    let mockViewModel = MockWeatherViewModel()
+
+    CitySearchResultsView(viewModel: mockViewModel) { selectedCity in
+            print("Selected city: \(selectedCity)")
+        }
+}

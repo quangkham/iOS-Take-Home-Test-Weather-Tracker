@@ -75,8 +75,7 @@ final class WeatherService: WeatherServiceProtocol {
         do {
             
             let (data, response) = try await session.data(from: url)
-            
-           
+
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw WeatherServiceError.unknown(URLError(.badServerResponse))
             }

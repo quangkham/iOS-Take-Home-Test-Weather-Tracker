@@ -85,3 +85,21 @@ class WeatherViewModel: ObservableObject {
 }
 
 
+class MockWeatherViewModel: WeatherViewModel {
+    init() {
+        let mockRepository = MockWeatherRepository()
+        let mockCityStorage = MockCityStorage()
+        super.init(repository: mockRepository, cityStorage: mockCityStorage)
+
+        // Add mock data for the preview
+        searchResults = [
+            CitySearchItem(id: 37, name: "San Francisco", region: "-122.4194" , country: "https://www.google.com", lat: 0.0, lon: 0.0, url: ""),
+            CitySearchItem(id: 37, name: "San Francisco", region: "122.4194" , country: "https://www.google.com", lat: 0.0, lon:0.0 , url: ""),
+            CitySearchItem(id: 37, name: "San Francisco", region: "122.4194" , country: "https://www.google.com", lat: 0.0, lon: 0.0 , url : "")
+        ]
+    }
+
+    override func getTemperature(for cityName: String) -> Double {
+        return 72.0 // Example temperature for all cities
+    }
+}
