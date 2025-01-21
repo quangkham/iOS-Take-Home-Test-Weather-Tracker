@@ -30,6 +30,7 @@ struct CustomSearchBar: View {
         }
     }
 }
+
 struct SearchBarPreview: View {
     @State private var searchText = ""
 

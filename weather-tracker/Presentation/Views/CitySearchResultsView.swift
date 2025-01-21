@@ -10,22 +10,33 @@ import SwiftUI
 
 struct CitySearchResultsView: View {
     @ObservedObject var viewModel: WeatherViewModel
-    @Binding var isShowingSearchResults: Bool
+   // @Binding var isShowingSearchResults: Bool
+    var onCitySelected: (String) -> Void //closure
 
     var body: some View {
-        List(viewModel.searchResults, id: \.name) { item in
-            Button {
-                Task {
-                    await viewModel.fetchWeather(for: item.name)
-                    isShowingSearchResults = false
-                }
-            } label: {
-                CityCardView(cityName: item.name, temperature: viewModel.getTemperature(for: "\(item.lat)"))
+        
+        VStack {
+            if viewModel.searchResults.isEmpty {
+                Text("No Result found")
+                    .font(.poppinsCaption)
+                    .foregroundColor(.brandForeground)
             }
-            .listRowBackground(Color.clear)
-            .buttonStyle(PlainButtonStyle())
+            else {
+                List(viewModel.searchResults, id: \.name) { item in
+                    Button {
+                        
+                        onCitySelected(item.name)
+ 
+                    } label: {
+                        CityCardView(cityName: item.name, temperature: viewModel.getTemperature(for: "\(item.lat)"))
+                    }
+                    .listRowBackground(Color.clear)
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .listStyle(PlainListStyle())
+                .background(Color.clear)
+            }
         }
-        .listStyle(PlainListStyle())
-        .background(Color.clear)
+        
     }
 }

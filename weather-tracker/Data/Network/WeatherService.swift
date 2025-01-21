@@ -24,12 +24,12 @@ final class WeatherService: WeatherServiceProtocol {
     }
     
     func fetchCurrentWeather(city: String) async throws -> WeatherResponse {
-        let apiKey = Bundle.main.apiKey
-        guard !apiKey.isEmpty else {
+       
+        guard !self.apiKey.isEmpty else {
             throw WeatherServiceError.emptyAPIKey
         }
         
-        let urlString = "https://api.weatherapi.com/v1/current.json?key=\(apiKey)&q=\(city)"
+        let urlString = "https://api.weatherapi.com/v1/current.json?key=\(self.apiKey)&q=\(city)"
  
         guard let url = URL(string: urlString) else {
             throw WeatherServiceError.invalidURL
@@ -61,12 +61,11 @@ final class WeatherService: WeatherServiceProtocol {
     
     func searchCities(matching query: String) async throws -> [CitySearchItem] {
         
-        let apiKey : String = Bundle.main.apiKey
-        guard !apiKey.isEmpty else {
+        guard !self.apiKey.isEmpty else {
             throw WeatherServiceError.emptyAPIKey
         }
         
-        let urlString = "https://api.weatherapi.com/v1/search.json?key=\(apiKey)&q=\(query)"
+        let urlString = "https://api.weatherapi.com/v1/search.json?key=\(self.apiKey)&q=\(query)"
       
         
         guard let url = URL(string: urlString) else {

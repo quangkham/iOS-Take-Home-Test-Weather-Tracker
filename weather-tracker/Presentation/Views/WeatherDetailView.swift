@@ -9,17 +9,16 @@ import SwiftUICore
 import SwiftUI
 
 struct WeatherDetailView: View {
-    let cityName: String
-    @State private var weatherInfo: WeatherInfo?
-    @State private var isLoading: Bool = false
-    @State private var errorMessage: String?
+    
+    let weatherInfo : WeatherInfo
+//    @State private var weatherInfo: WeatherInfo?
+//    @State private var isLoading: Bool = false
+//    @State private var errorMessage: String?
     
     var body: some View {
         VStack(spacing: 20) {
                 
-            if isLoading {
-                ProgressView("Loading...")
-            } else if let weatherInfo = weatherInfo {
+          
                 
                 if let iconURL = weatherInfo.conditionIconURL {
                     AsyncImage(url: iconURL) { phase in
@@ -49,34 +48,22 @@ struct WeatherDetailView: View {
 
                         Text("\(Int(weatherInfo.temperature))°")
                             .font(.poppinsHeader)
-                        }
+                        
 
                    
                     HStack(spacing: 16) {
-                        DetailCardView(label: "Humidity", value: "\(weatherInfo?.humidity ?? 0)%")
-                        DetailCardView(label: "UV", value: "\(Int(weatherInfo?.uvIndex ?? 0.0))")
-                        DetailCardView(label: "Feels Like", value: "\(Int(weatherInfo?.feelsLike ?? 0.0))°")
-                            }
+                        DetailCardView(label: "Humidity", value: "\(weatherInfo.humidity)%")
+                        DetailCardView(label: "UV", value: "\(Int(weatherInfo.uvIndex))")
+                        DetailCardView(label: "Feels Like", value: "\(Int(weatherInfo.feelsLike))°")
+                    }
                             .padding()
                             .background(content: { Color.brandLightForeground.cornerRadius(16) })
                             Spacer()
                 }
                 .padding()
-                .onAppear() {
-                    Task {
-                        await fetchWeather()
-                    }
-        }
     }
     
-    private func fetchWeather() async {
-            do {
-                isLoading = true
-                let repository = WeatherRepository(service: WeatherService(apiKey: Bundle.main.apiKey))
-                weatherInfo = try await repository.fetchWeather(for: cityName)
-            } catch {
-                errorMessage = error.localizedDescription
-            }
-            isLoading = false
-        }
+  
 }
+
+

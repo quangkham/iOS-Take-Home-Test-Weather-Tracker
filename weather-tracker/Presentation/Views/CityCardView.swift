@@ -6,7 +6,7 @@
 //
 
 import SwiftUICore
-
+import SwiftUI
 
 struct CityCardView: View {
     let cityName: String
@@ -14,6 +14,7 @@ struct CityCardView: View {
     
     var body: some View {
         HStack {
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(cityName)
                     .font(.poppinsHeadline)
@@ -33,3 +34,6 @@ struct CityCardView: View {
     }
 }
 
+#Preview {
+    CityCardView(cityName: "Baghdad", temperature: 0.0)
+}

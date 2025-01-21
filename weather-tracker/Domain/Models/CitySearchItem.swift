@@ -14,5 +14,4 @@ struct CitySearchItem: Codable {
     let lat: Double?
     let lon: Double?
     let url: String?
-   
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUICore
+import SwiftUI
 
 struct EmptyHomeView: View {
     var body: some View {
@@ -26,3 +27,8 @@ struct EmptyHomeView: View {
         .padding()
     }
 }
+
+#Preview {
+    EmptyHomeView()
+}
+

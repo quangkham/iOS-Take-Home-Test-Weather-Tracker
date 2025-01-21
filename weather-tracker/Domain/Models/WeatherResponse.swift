@@ -19,7 +19,6 @@ struct WeatherResponse: Decodable {
             let condition: Condition
             let humidity: Int
             let uv: Double
-
             let windSpeed: Double?
             let windDirection: String?
             let pressure: Double?

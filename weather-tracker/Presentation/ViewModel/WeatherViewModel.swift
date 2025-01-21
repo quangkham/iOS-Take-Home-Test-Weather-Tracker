@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-@MainActor
+@MainActor // Observeable
 class WeatherViewModel: ObservableObject {
     
     @Published var weatherInfo: WeatherInfo?
     @Published var searchQuery: String = ""
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var saveCity : String?
     @Published var searchResults: [CitySearchItem] = []
 
     private let repository: WeatherRepositoryProtocol
@@ -29,6 +30,11 @@ class WeatherViewModel: ObservableObject {
             Task { await fetchWeather(for: savedCity) }
         }
     }
+    
+    func saveCity(_ city: String) {
+        cityStorage.saveCity(city)
+        saveCity = city
+    }
 
     func fetchWeather(for city: String) async {
         guard !city.isEmpty else { return }
@@ -38,7 +44,7 @@ class WeatherViewModel: ObservableObject {
         do {
             let info = try await repository.fetchWeather(for: city)
             weatherInfo = info
-            cityStorage.saveCity(city)
+            saveCity(city)
         } catch let serviceError as WeatherServiceError {
             errorMessage = serviceError.localizedDescription
         } catch {
@@ -77,3 +83,5 @@ class WeatherViewModel: ObservableObject {
         }
     
 }
+
+
