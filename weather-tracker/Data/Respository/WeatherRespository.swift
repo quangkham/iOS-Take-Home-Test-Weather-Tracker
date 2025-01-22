@@ -7,7 +7,10 @@
 
 import Foundation
 
-protocol WeatherRepositoryProtocol {
+//Usage
+//The Repository exposes simple methods (e.g., fetchWeather) to the ViewModel, hiding complex data-fetching logic.
+//Allows switching between different data sources (e.g., local database vs. API) without changing the ViewModel.
+protocol WeatherRepositoryProtocol { // centralize data logic
     func fetchWeather(for city: String) async throws -> WeatherInfo
     func searchCities(matching query: String) async throws -> [CitySearchItem]
 }

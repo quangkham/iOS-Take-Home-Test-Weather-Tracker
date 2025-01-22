@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var viewModel = WeatherViewModel( // dependency injection
+    @StateObject var viewModel = WeatherViewModel(
         repository: WeatherRepository(service: WeatherService(apiKey: Bundle.main.apiKey)),
         cityStorage: CityStorage()
     )

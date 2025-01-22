@@ -8,7 +8,9 @@
 import SwiftUI
 
 import Foundation
-
+//Usage
+//The Service is called by the Repository, which decides how to use the data it provides.
+//Responsible for making raw API calls and converting responses into usable data models.
 protocol WeatherServiceProtocol {
     func fetchCurrentWeather(city: String) async throws -> WeatherResponse
     func searchCities(matching query: String) async throws -> [CitySearchItem]

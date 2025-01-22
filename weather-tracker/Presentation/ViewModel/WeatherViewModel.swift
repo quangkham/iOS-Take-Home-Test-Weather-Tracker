@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-@MainActor // Observeable
+@MainActor
 class WeatherViewModel: ObservableObject {
-    
+    //ViewModel: Updates its @Published properties (e.g., weatherInfo) to notify the View of changes.
     @Published var weatherInfo: WeatherInfo?
     @Published var searchQuery: String = ""
     @Published var isLoading: Bool = false
